@@ -1,7 +1,11 @@
 package linksharing
 
+import linksharing.util.RoleType
+
 class Roles {
-    String roleType;
+    RoleType roleType;
+    Date dateCreated;
+    Date lastUpdated;
 
     static hasMany = [user:User]
     static belongsTo = [User]
