@@ -33,7 +33,7 @@ class User {
 
     static constraints = {
         emails(unique: true,nullable: false,email:true,blank: false)
-        password(nullable: false,min: 5,blank: false)
+        password(nullable: false,minSize: 5,blank: false)
         firstName(nullable: false,blank: false)
         lastName(nullable: false,blank: false)
         isActive(nullable: false)
