@@ -10,10 +10,6 @@ abstract class Resource {
     String description;
     Date dateCreated;
     Date lastUpdated;
-    User createdBy;
-    Topic topic;
-    ReadingItem readingItems;
-    Rating rating;
 
     static hasMany = [readingItems: ReadingItem,rating:Rating]
     static belongsTo = [createdBy:User,topic:Topic]
@@ -22,7 +18,7 @@ abstract class Resource {
     }
 
     static mapping = {
-        table "resource"
+        table "resources"
         autoTimestamp true
         description type: "text"
     }

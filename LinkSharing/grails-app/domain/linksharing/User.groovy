@@ -42,6 +42,7 @@ class User {
 
     static mapping = {
         content (sqlType: "longblob")
+        table "users"
         autoTimestamp true
     }
 

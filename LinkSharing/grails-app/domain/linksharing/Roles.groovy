@@ -7,7 +7,7 @@ class Roles {
     Date dateCreated;
     Date lastUpdated;
 
-    static hasMany = [user:User]
+    static hasMany = [User]
     static belongsTo = [User]
 
     static constraints = {

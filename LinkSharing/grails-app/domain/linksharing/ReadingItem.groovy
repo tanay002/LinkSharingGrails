@@ -5,27 +5,25 @@ import groovy.transform.ToString
 import java.time.LocalDate
 
 @ToString
-class ReadingItem {
+class ReadingItem implements  Serializable {
 
     Date dateCreated;
     Date lastUpdated;
-    User  readingUser;
     Boolean isRead;
-    Resource resource;
-    User user;
 
-    static hasMany = [user:User,resource:Resource]
-    static belongsTo = [User,Resource]
+   // static hasMany = [user:User,resource:Resource]
+    static belongsTo = [readingUser:User,readingResource:Resource]
 
     static mapping = {
         table "reading_item"
         autoTimestamp true
+        id composite:['readingUser', 'readingResource']
     }
 
     static constraints = {
-        user(nullable: false)
+        readingUser(nullable: false)
         isRead(nullable: false)
-        resource(nullable: false,unique: ['user'])
+        readingResource(nullable: false)  // ,unique: ['user']
     }
 
 }

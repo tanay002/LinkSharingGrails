@@ -6,18 +6,17 @@ import linksharing.util.Seriousness
 import java.time.LocalDate
 
 @ToString
-class Subscription {
+class Subscription implements Serializable {
 
-    User user;
-    Topic topic;
+
     Seriousness seriousness;
     Date dateCreated;
     Date lastUpdated;
-    User createdBy;
     Boolean isSubscribed;
+    User user;
+    Topic topic;
 
-    static hasMany = [user:User]
-    static belongsTo = [user:User,createdBy:User,topic:Topic]
+    static belongsTo = [user:User,topic:Topic]
     static constraints = {
         user(nullable: false,unique:['topic'])
         topic(nullable: false)
@@ -30,5 +29,6 @@ class Subscription {
     static mapping = {
         table "subscription"
         autoTimestamp true
+        id composite:['user', 'topic']
     }
 }
