@@ -108,7 +108,7 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     username: 'root'
     password: 'root'
     dialect : org.hibernate.dialect.MySQL5InnoDBDialect
@@ -116,7 +116,7 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: create
+            dbCreate: update
             url: jdbc:mysql://localhost:3306/linksharing
     test:
         dataSource:

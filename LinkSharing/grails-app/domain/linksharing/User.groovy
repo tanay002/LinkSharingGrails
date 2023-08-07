@@ -17,7 +17,7 @@ class User {
     byte[] photo;
     Date dateCreated;
     Date lastUpdated;
-
+    List<Roles> roles
     static transients = ['name']
 
     static hasMany = [topic:Topic,subscription: Subscription,resource:Resource,readingItem:ReadingItem,roles: Roles]
@@ -37,7 +37,7 @@ class User {
         firstName(nullable: false,blank: false)
         lastName(nullable: false,blank: false)
         isActive(nullable: false)
-        photo(nullable: false)
+        photo(nullable: true)
     }
 
     static mapping = {
