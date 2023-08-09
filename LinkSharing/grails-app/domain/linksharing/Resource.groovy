@@ -1,6 +1,8 @@
 package linksharing
 
+import grails.events.annotation.Subscriber
 import groovy.transform.ToString
+import org.hibernate.event.spi.PostInsertEvent
 
 import java.time.LocalDate
 
@@ -22,4 +24,5 @@ abstract class Resource {
         autoTimestamp true
         description type: "text"
     }
+
 }

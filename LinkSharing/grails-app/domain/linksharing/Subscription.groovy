@@ -22,9 +22,10 @@ class Subscription implements Serializable {
         topic(nullable: false)
         seriousness(nullable: false)
 
-        isSubscribed validator: {
+    /*    isSubscribed validator: {
             if (isSubscribed == true) return ['User Cannot Subscribed Again For same topic']
         }
+        */
     }
     static mapping = {
         table "subscription"

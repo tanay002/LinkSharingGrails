@@ -7,9 +7,14 @@ import java.time.LocalDate
 @ToString
 class LinkResource extends Resource{
 
-    String url;
+    String urlLink;
 
     static constraints = {
-        url(url: true)
+        urlLink(url: true)
+    }
+
+    String toString()
+    {
+        return "URL Link: "+urlLink;
     }
 }
