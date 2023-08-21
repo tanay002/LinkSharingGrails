@@ -27,6 +27,7 @@ class Topic {
     static mapping = {
         table "topic"
         autoTimestamp true
+        sort topicName:"asc"
     }
 
     String toString()
@@ -35,26 +36,26 @@ class Topic {
     }
 
     def afterInsert() {
-        Subscription.withNewSession { session->
-            List<Subscription> subscriptionList= Subscription.findAll();
-            if(!subscriptionList.isEmpty()) {
-                log.error "Subscriptions Already exist in database ,So records can't be inserted"
-            }
-            else {
-                List<Topic> topicList=Topic.findAll();
-                List<Subscription> subList = [];
-                for (Topic topic in topicList) {
-                    Subscription sub = new Subscription(seriousness: Seriousness.SERIOUS, isSubscribed: true,
-                            topic: topic, user: topic.getCreatedBy());
-                    if (sub.save()) {
-                        subList.add(sub)
-                        log.info "Subscription ${sub} saved successfully for Topic " + topic.getTopicName()
-                    } else {
-                        log.error "Error saving Subscription : ${sub.errors.allErrors}"
-                    }
-                }
-                subscriptionList = subList;
-            }
-        }
+        def session1 = Subscription.withNewSession { session->
+             HashMap <String,Integer> hashmap=new HashMap<String,Integer>();
+           //  hashmap.put("max",100);
+           //  hashmap.put("offset",0);
+             List<Subscription> subList = [];
+             String query = "from Topic as t where t.id not in (select sub.topic from Subscription as sub)"
+             List<Topic> topicList = Topic.findAll(query, hashmap);
+                 for (Topic topic in topicList) {
+                     Subscription sub = new Subscription(seriousness: Seriousness.SERIOUS,
+                             topic: topic, user: topic.getCreatedBy());
+                     if (sub.save()) {
+                         subList.add(sub)
+                         log.info "Subscription ${sub} saved successfully for Topic " + topic.getTopicName()
+                     } else {
+                         log.error "Error saving Subscription : ${sub.errors.allErrors}"
+                     }
+                 }
+                  subList;
+             }
+        session1
+        session1
     }
 }

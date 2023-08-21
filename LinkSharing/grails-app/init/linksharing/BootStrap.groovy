@@ -6,6 +6,7 @@ import linksharing.util.RoleType
 import linksharing.util.Seriousness
 import linksharing.util.VisibilityType
 
+
 @CompileStatic
 class BootStrap {
 
@@ -157,16 +158,15 @@ class BootStrap {
 
     List<Subscription> doSubscription()
     {
-            List<Subscription> subscriptionList= Subscription.findAll();
+        HashMap <String,Integer> hashmap=new HashMap<String,Integer>();
+        hashmap.put("max",100);
+        hashmap.put("offset",0);
              List<Subscription> subList = [];
-            if(!subscriptionList.isEmpty()) {
-                log.error "Subscriptions Already exist in database ,So records can't be inserted"
-            }
-            else {
-                List<Topic> topicList=Topic.findAll();
+        String query = "from Topic as t where t.id not in (select sub.topic from Subscription as sub)"
+        List<Topic> topicList = Topic.findAll(query, hashmap);
 
-                for (Topic topic in topicList) {
-                    Subscription sub = new Subscription(seriousness: Seriousness.SERIOUS, isSubscribed: true,
+        for (Topic topic in topicList) {
+                    Subscription sub = new Subscription(seriousness: Seriousness.SERIOUS,
                             topic: topic, user: topic.getCreatedBy());
                     if (sub.save()) {
                         subList.add(sub)
@@ -175,7 +175,7 @@ class BootStrap {
                         log.error "Error saving Subscription : ${sub.errors.allErrors}"
                     }
                 }
-            }
+
         subList
     }
 

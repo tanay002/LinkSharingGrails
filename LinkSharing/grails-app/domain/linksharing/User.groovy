@@ -2,6 +2,7 @@ package linksharing
 
 import groovy.transform.ToString
 
+import javax.persistence.Transient
 import java.time.LocalDate
 
 @ToString
@@ -17,8 +18,9 @@ class User {
     byte[] photo;
     Date dateCreated;
     Date lastUpdated;
+    String confirmPassword;
     List<Roles> roles
-    static transients = ['name']
+    static transients = ['name','confirmPassword']
 
     static hasMany = [topic:Topic,subscription: Subscription,resource:Resource,readingItem:ReadingItem,roles: Roles]
 
@@ -44,6 +46,8 @@ class User {
         content (sqlType: "longblob")
         table "users"
         autoTimestamp true
+        sort id:"desc"
+        topic lazy: false
     }
 
 

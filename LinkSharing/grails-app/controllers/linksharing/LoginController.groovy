@@ -1,29 +1,29 @@
 package linksharing
 
+import grails.converters.JSON
+import linksharing.util.RoleType
+
 import javax.servlet.http.HttpSession
 import javax.transaction.Transactional
 
 class LoginController {
 
-    UserService userService;
+    static allowedMethods = [register:'POST',"loginHandler":'POST'];
 
     def index() {
-    //    HttpSession session=request.getSession(false);
-        if(session.username==null)
+        if(session.email==null)
             render ("Failure.......User does not exist in Session")
         else
             forward controller: "user", action: "index"
     }
 
     @Transactional
-    def loginHandler(String userName ,String password)
+    def loginHandler()
     {
-        User user=User.findByUsernameAndPassword(userName,password)
+        User user=User.findByUsernameAndPassword(params.userName,params.password)
         if(user!=null && user.isActive==true)
         {
-         //   HttpSession session =request.getSession(true);
-          //  session.setAttribute("user",user);
-            session.username="${user.username}"
+            session.email=user.getEmails()
             redirect(action: "index");
         }
         else if(user!=null)
@@ -38,6 +38,23 @@ class LoginController {
 
     }
 
+    @Transactional
+    def register() {
+        def user= new User(params);
+        println user;
+        user.setIsActive(true);
+        Roles role=new Roles(roleType: RoleType.NORMAL_USER).save();
+        user.setRoles(Arrays.asList(role))
+        if (!user.save(validate:true)) {
+            user.errors.allErrors.each {
+                render flash.error = "Issue in registering user ${it}"
+            }
+        }
+        else
+        {
+         render "Success..... User is registered Successfully"
+        }
+    }
     def logout() {
         log.info "User agent: " + request.getHeader("User-Agent")
         session.invalidate()

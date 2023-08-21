@@ -12,7 +12,7 @@ class ApplicationInterceptor {
 
     boolean before() {
        // HttpSession session =request.getSession(false);
-        if(session.username==null)
+        if(session.email==null)
             redirect(controller: 'login', action: 'index')
         else
             redirect(controller: 'user', action: 'index')

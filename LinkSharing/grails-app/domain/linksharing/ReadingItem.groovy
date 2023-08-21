@@ -17,7 +17,7 @@ class ReadingItem implements  Serializable {
     static mapping = {
         table "reading_item"
         autoTimestamp true
-      // id composite:['createdBy', 'readingResource']
+       id composite:['createdBy', 'readingResource']
 
     }
 
