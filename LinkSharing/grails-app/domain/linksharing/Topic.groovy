@@ -55,7 +55,5 @@ class Topic {
                  }
                   subList;
              }
-        session1
-        session1
     }
 }
